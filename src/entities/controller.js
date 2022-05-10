@@ -8,7 +8,7 @@ class Controller extends MovingObject {
 
   getHandPosition() {
     let moveDir = this.getMoveDir();
-    let center = this.getWorldBoundingBox().getCenter();
+    let center = this.getCenter();
     return GWE.Utils.VEC3_ADD(center, GWE.Utils.VEC3_SCALE(moveDir, this.radius + 0.5));
   }
 }

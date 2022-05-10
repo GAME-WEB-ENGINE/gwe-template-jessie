@@ -1,4 +1,2 @@
 + TODO:
 -------
-
-- AJOUTER LES SPRITES DE SCENE

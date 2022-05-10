@@ -1,36 +1,15 @@
 let { GWE } = require('gwe');
-let { DIRECTION } = require('../core/enums');
+let { MovingObject } = require('./moving_object');
 
-class Controller extends GWE.GfxJAS {
+class Controller extends MovingObject {
   constructor() {
     super();
-    this.direction = DIRECTION.FORWARD;
-    this.radius = 0;
-    this.speed = 3;
   }
 
-  getDirection() {
-    return this.direction;
-  }
-
-  setDirection(direction) {
-    this.direction = direction;
-  }
-
-  getRadius() {
-    return this.radius;
-  }
-
-  setRadius(radius) {
-    this.radius = radius;
-  }
-
-  getSpeed() {
-    return this.speed;
-  }
-
-  setSpeed(speed) {
-    this.speed = speed;
+  getHandPosition() {
+    let moveDir = this.getMoveDir();
+    let center = this.getWorldBoundingBox().getCenter();
+    return GWE.Utils.VEC3_ADD(center, GWE.Utils.VEC3_SCALE(moveDir, this.radius + 0.5));
   }
 }
 

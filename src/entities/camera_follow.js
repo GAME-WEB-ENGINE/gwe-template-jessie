@@ -7,8 +7,8 @@ let MATRIX = [0.7071, 0.0000,  0.7071, 0.0000, 0.3546, 0.8652, -0.3546, 0.0000, 
 class CameraFollow {
   constructor() {
     this.targetDrawable = null;
-    this.minClipOffset = [-1, -1];
-    this.maxClipOffset = [1, 1];
+    this.minClipOffset = [0, 0];
+    this.maxClipOffset = [0, 0];
     this.view = GWE.gfxManager.getView(0);
 
     this.view.setProjectionMode(GWE.ProjectionModeEnum.ORTHOGRAPHIC);

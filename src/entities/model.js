@@ -1,9 +1,18 @@
-let { MovingObject } = require('./moving_object');
+let { GWE } = require('gwe');
 
-class Model extends MovingObject {
+class Model extends GWE.GfxJAS {
   constructor() {
     super();
+    this.radius = 0;
     this.onActionBlockId = '';
+  }
+
+  getRadius() {
+    return this.radius;
+  }
+
+  setRadius(radius) {
+    this.radius = radius;
   }
 
   getOnActionBlockId() {
@@ -12,6 +21,10 @@ class Model extends MovingObject {
 
   setOnActionBlockId(onActionBlockId) {
     this.onActionBlockId = onActionBlockId;
+  }
+
+  getCenter() {
+    return this.getWorldBoundingBox().getCenter();
   }
 }
 

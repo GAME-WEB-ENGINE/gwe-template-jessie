@@ -71,7 +71,6 @@ class Room {
     room.controller.setRotation(BILLBOARD_ROTATION);
     room.controller.setPixelsPerUnit(PIXEL_PER_UNIT);
     room.controller.setRadius(json['Controller']['Radius']);
-    room.controller.play('IDLE_FORWARD', true);
 
     room.camera = new CameraFollow();
     room.camera.setTargetDrawable(room.controller);
@@ -97,7 +96,7 @@ class Room {
       model.setPixelsPerUnit(PIXEL_PER_UNIT);
       model.setRadius(obj['Radius']);
       model.setOnActionBlockId(obj['OnActionBlockId']);
-      model.play('IDLE_FORWARD', true);
+      model.play(obj['Animation']);
       room.models.push(model);
     }
 
@@ -149,26 +148,27 @@ class Room {
       return;
     }
 
-    let moving = false;
-
     if (GWE.inputManager.isKeyDown(GWE.InputKeyEnum.LEFT)) {
-      moving = true;
+      this.controller.setMoving(true);
       this.controller.setDirection(DIRECTION.LEFT);
     }
     else if (GWE.inputManager.isKeyDown(GWE.InputKeyEnum.RIGHT)) {
-      moving = true;
+      this.controller.setMoving(true);
       this.controller.setDirection(DIRECTION.RIGHT);
     }
     else if (GWE.inputManager.isKeyDown(GWE.InputKeyEnum.UP)) {
-      moving = true;
+      this.controller.setMoving(true);
       this.controller.setDirection(DIRECTION.FORWARD);
     }
     else if (GWE.inputManager.isKeyDown(GWE.InputKeyEnum.DOWN)) {
-      moving = true;
+      this.controller.setMoving(true);
       this.controller.setDirection(DIRECTION.BACKWARD);
     }
+    else {
+      this.controller.setMoving(false);
+    }
 
-    if (moving) {
+    if (this.controller.isMoving()) {
       this.utilsControllerMove(GWE.Utils.VEC3_SCALE(this.controller.getMoveDir(), this.controller.getSpeed() * (ts / 1000)));
       this.controller.play('RUN_' + this.controller.getDirection(), true);
     }
@@ -347,6 +347,8 @@ class Room {
     GWE.uiManager.focus(uiDialog);
     await GWE.eventManager.wait(uiDialog, 'E_CLOSE');
     GWE.uiManager.removeWidget(uiDialog);
+
+    console.log('removed');
     this.scriptMachine.setEnabled(true);
   }
 

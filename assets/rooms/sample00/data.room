@@ -24,7 +24,16 @@
     "Position": [-0.12, -3.56, -1.72],
     "Direction": "LEFT"
   }],
-  "Models": [],
+  "Models": [{
+    "JASFile": "assets/models/princess/body.jas",
+    "TextureFile": "assets/models/princess/sprite.png",
+    "OffsetX": 12,
+    "OffsetY": 0,
+    "Position": [-0.12, -3.56, -4.00],
+    "Radius": 0.3,
+    "OnActionBlockId": "0000",
+    "Animation": "IDLE_LEFT"
+  }],
   "Movers": [],
   "Triggers": []
 }

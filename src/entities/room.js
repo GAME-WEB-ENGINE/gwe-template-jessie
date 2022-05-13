@@ -347,8 +347,6 @@ class Room {
     GWE.uiManager.focus(uiDialog);
     await GWE.eventManager.wait(uiDialog, 'E_CLOSE');
     GWE.uiManager.removeWidget(uiDialog);
-
-    console.log('removed');
     this.scriptMachine.setEnabled(true);
   }
 

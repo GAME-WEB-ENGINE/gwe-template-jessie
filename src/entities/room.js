@@ -170,10 +170,10 @@ class Room {
 
     if (this.controller.isMoving()) {
       this.utilsControllerMove(GWE.Utils.VEC3_SCALE(this.controller.getMoveDir(), this.controller.getSpeed() * (ts / 1000)));
-      this.controller.play('RUN_' + this.controller.getDirection(), true);
+      this.controller.play('RUN_' + this.controller.getDirection(), true, true);
     }
     else {
-      this.controller.play('IDLE_' + this.controller.getDirection(), true);
+      this.controller.play('IDLE_' + this.controller.getDirection(), true, true);
     }
   }
 

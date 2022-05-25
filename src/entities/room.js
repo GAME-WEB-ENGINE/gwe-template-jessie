@@ -7,9 +7,6 @@ let { Trigger } = require('../entities/trigger');
 let { Controller } = require('../entities/controller');
 let { CameraFollow } = require('../entities/camera_follow');
 
-let PIXEL_PER_UNIT = 48;
-let BILLBOARD_ROTATION = [0.52, 0.78, 0];
-
 class Room {
   constructor(player) {
     this.player = player;
@@ -64,18 +61,17 @@ class Room {
     room.walkmesh = new GWE.GfxJWM();
     room.walkmesh.loadFromFile(json['WalkmeshFile']);
 
+    room.camera = new CameraFollow();
+    room.camera.setMinClipOffset(json['CameraMinClipOffsetX'], json['CameraMinClipOffsetY']);
+    room.camera.setMaxClipOffset(json['CameraMaxClipOffsetX'], json['CameraMaxClipOffsetY']);
+
     room.controller = new Controller();
     room.controller.loadFromFile(json['Controller']['JASFile']);
     room.controller.setTexture(await GWE.textureManager.loadTexture(json['Controller']['TextureFile']));
     room.controller.setOffset(json['Controller']['OffsetX'], json['Controller']['OffsetY']);
-    room.controller.setRotation(BILLBOARD_ROTATION);
-    room.controller.setPixelsPerUnit(PIXEL_PER_UNIT);
+    room.controller.setRotation(room.camera.getBillboardRotation());
+    room.controller.setPixelsPerUnit(room.camera.getPixelsPerUnit());
     room.controller.setRadius(json['Controller']['Radius']);
-
-    room.camera = new CameraFollow();
-    room.camera.setTargetDrawable(room.controller);
-    room.camera.setMinClipOffset(json['CameraMinClipOffsetX'], json['CameraMinClipOffsetY']);
-    room.camera.setMaxClipOffset(json['CameraMaxClipOffsetX'], json['CameraMaxClipOffsetY']);
 
     for (let obj of json['Spawns']) {
       let spawn = new Spawn();
@@ -92,8 +88,8 @@ class Room {
       model.setTexture(await GWE.textureManager.loadTexture(obj['TextureFile']));
       model.setOffset(obj['OffsetX'], obj['OffsetY']);
       model.setPosition(obj['Position']);
-      model.setRotation(BILLBOARD_ROTATION);
-      model.setPixelsPerUnit(PIXEL_PER_UNIT);
+      model.setRotation(room.camera.getBillboardRotation());
+      model.setPixelsPerUnit(room.camera.getPixelsPerUnit());
       model.setRadius(obj['Radius']);
       model.setOnActionBlockId(obj['OnActionBlockId']);
       model.play(obj['Animation']);
@@ -116,6 +112,8 @@ class Room {
       trigger.setOnActionBlockId(obj['OnActionBlockId']);
       room.triggers.push(trigger);
     }
+
+    room.camera.setTargetDrawable(room.controller);
 
     let spawn = room.spawns.find(spawn => spawn.getName() == spawnName);
     room.controller.setDirection(spawn.getDirection());
